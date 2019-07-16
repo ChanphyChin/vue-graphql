@@ -1,0 +1,119 @@
+query info {
+	info {
+		list {
+			username
+			content
+			date
+		}
+		link {
+			lname
+			lurl
+		}
+		weather {
+			wea 
+			temp
+		}
+	}
+}
+mutation createComment($commentInput: CommentInput) {
+	createComment(commentInput: $commentInput) {
+		username
+		content
+	}
+}
+
+
+#组织机构
+query organization($id:String!){
+  organization(id:$id){
+    id
+    name
+    shortName
+  }
+}
+
+#修改组织机构
+ mutation renamingOrganization($id: String!, $name: String!, $shortName: String!){
+  renamingOrganization(id:$id,name:$name,shortName:$shortName){
+    id
+    name
+    shortName
+  }
+}
+#查询所以部门
+query organizdate($id:String!){
+  organization(id:$id){
+	  id
+    departments {
+      id
+      name
+    }
+  }
+}
+
+#用户管理新增接口
+
+mutation useradd($departmentId:String,
+  $name: String!, 
+  $password: String!,
+  $title: String, 
+  $male: Boolean!, 
+  $organizationId: String!, 
+  $contact: String) {
+  onboardingEmployee(departmentId:$departmentId,
+    name: $name,
+    password: $password, 
+    title: $title,
+    male: $male,
+    organizationId: $organizationId,
+    contact: $contact) {
+    id
+    displayName
+    name
+    male
+    title
+    contacts {
+      value
+    }
+    credentials {
+      id
+      domain
+    }
+    role {
+      id
+    }
+  }
+}
+
+#首页列表
+
+query organizationst($id:String!,$index: Int, $pageSize: Int, $leave: Boolean!,$unallocated:Boolean!){
+  organization(id:$id){
+      id
+      employee(index: $index, pageSize: $pageSize, leave: $leave,unallocated:$unallocated){
+			id
+      name
+      title
+      department {
+        id
+        name
+      }
+      contacts {
+        value
+      }
+  }
+  }
+
+    
+  }
+
+#page 翻页
+query organizationSizes($id:String!,$leave: Boolean!,$unallocated:Boolean!,$name: String){
+  organization(id:$id){
+    id
+    size(leave: $leave,unallocated:$unallocated,name: $name){
+      size
+    }
+  }
+}
+
